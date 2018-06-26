@@ -8,13 +8,15 @@ import cgi
 # class ClassName(ParentClass) == class ClassName extends ParentClass
 class webserverHandler(BaseHTTPRequestHandler):
 
-    form_html = '''
-        <form method='POST' enctype='multipart/form-data' action='/hello'>
-            <h3>What would you like me to say?</h3>
-            <input name='message' type='text'>
-            <input type='submit' value='Submit'>
-        </form>
-    '''
+    def form_html(self, message):
+        output =  '''
+            <form method='POST' enctype='multipart/form-data' action='/hello'>
+                <h3>{}</h3>
+                <input name='message' type='text'>
+                <input type='submit' value='Submit'>
+            </form>
+        '''
+        return output.format(message)
 
     def do_GET(self):
         # GET method provides path variable
@@ -27,7 +29,7 @@ class webserverHandler(BaseHTTPRequestHandler):
                 output = "<html lang='en'><body>" \
                     "<p>This is Hello Page!</p>" \
                     "<a href='/privet'>To Privet page</a>" \
-                    "<h1>OK, How about this?</h1>" + self.form_html + \
+                    "<h1>OK, How about this?</h1>" + self.form_html("What would you like me to say?") + \
                     "</body></html>" 
 
                 self.wfile.write(output.encode())
@@ -40,7 +42,7 @@ class webserverHandler(BaseHTTPRequestHandler):
                 output = "<html lang='en'><body>" \
                     "<p>Russia language uses charset=ISO-8859-1. Need to learn how to setup a server to render this correctly</p>"\
                     "<a href='/hello'>To hello page</a>" \
-                    "<h1>OK, How about this?</h1>" + self.form_html + \
+                    "<h1>OK, How about this?</h1>" + self.form_html("What would you like me to say?") + \
                     "</body></html>"
                 self.wfile.write(output.encode())
                 return
@@ -75,7 +77,7 @@ class webserverHandler(BaseHTTPRequestHandler):
             output += "<h1>OK, How about this?</h1>" 
             # If str.decode() not used string is written as "b'string'"
             output += "<h2>message: %s</h2>" % messagecontent[0].decode()
-            output += self.form_html
+            output += self.form_html("What would you like me to say?")
             output += "</body></html>" 
             self.wfile.write(output.encode())
             # print(output)
