@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Restaurant Menu</title>
+</head>
+<body>
+    <div>
+        <a href="#">GO BACK</a>
+        <h2>Edit Menu For {{restaurant.name}}</h2>
+        <p>Item: {{item.name}}, {{item.price}}</p>
+        <p>Description: {{item.description}}</p>
+    </div>
+    <div>
+        <form action="url_for()">
+            Name: <input type="text" name="name" value={{item.name}}>
+            Price $:<input type="text" name="price" value={{item.price}}>
+            Description: <textarea name="description" id="" cols="30" rows="10">{{item.description}}</textarea>
+            <input type="submit" value="SUBMIT">
+            <input type="reset" value="CANCEL">
+        </form>
+    </div>
+</body>
+</html>
