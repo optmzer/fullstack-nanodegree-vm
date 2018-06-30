@@ -9,18 +9,25 @@
 <body>
     <div>
         <a href="{{url_for('restaurantMenu', restaurantID = restaurant.id)}}">BACK</a>
-        <h2>Edit Menu For {{restaurant.name}}</h2>
+        <h2>Delete Menu Item For {{restaurant.name}}</h2>
         <p>Item: {{item.name}}, {{item.price}}</p>
         <p>Description: {{item.description}}</p>
     </div>
     <div>
         <form action="" method="POST">
-            Name: <input type="text" name="name" value={{item.name}}>
-            Price $:<input type="text" name="price" value={{item.price}}>
-            Description: <textarea name="description" id="" cols="40" rows="5">{{item.description}}</textarea>
+            Name: <input type="text" name="name" value={{item.name}} readonly>
+            Price $:<input type="text" name="price" value={{item.price}} readonly>
+            Description: 
+            <textarea 
+                name="description" 
+                id="" 
+                cols="40" 
+                rows="5"
+                readonly
+                >
+                {{item.description}}</textarea>
             <br>
-            <input type="submit" value="SUBMIT">
-            <input type="reset" value="CANCEL">
+            <input type="submit" value="DELETE">
         </form>
     </div>
 </body>
