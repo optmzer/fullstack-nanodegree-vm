@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 
 # Imports DB
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Restaurant, MenuItem
+
+################ Create Flask app ################
+
+app = Flask(__name__)
 
 ################ Create Connection to DB ################
 # init connection with DB
@@ -17,21 +21,30 @@ DBSession = sessionmaker(bind=engine)
 
 session = DBSession()
 
-################ Create Flask app ################
-
-app = Flask(__name__)
-
 def getRestaurant(restaurantID):
     return session.query(Restaurant).filter_by(id = restaurantID).one()
 
 def getMenuItems(restaurantID):
-    print("not supported yet")
+    return session.query(MenuItem).filter_by(restaurant_id = restaurantID).all()
 
 def getMenuItem(restaurantID, menuItemID):
     restaurant = getRestaurant(restaurantID)
     menuItem = session.query(MenuItem).filter_by(restaurant_id = restaurant.id, id = menuItemID).one()
     print("L33 MenuItem " + menuItem.name)
     return menuItem
+
+@app.route('/restaurants/<int:restaurantID>/menu/JSON')
+def restaurnatMenuJSON(restaurantID):
+    menuItems = getMenuItems(restaurantID)
+    # Passing items as an array [].
+    return jsonify(MenuItems = [i.serialize for i in menuItems])
+
+@app.route('/restaurants/<int:restaurantID>/menu/<int:menu_id>/JSON')
+def restaurantMenuItem(restaurantID, menu_id):
+    menuItem = getMenuItem(restaurantID, menu_id)
+    # Only one item. No need for an array
+    return jsonify(MenuIten=menuItem.serialize)
+
 
 # @app -is a decorator.
 # Can be stacked on top of each other. As '/' will call next '/hello' 
@@ -42,7 +55,7 @@ def getMenuItem(restaurantID, menuItemID):
 def restaurantMenu(restaurantID):
     restaurant = getRestaurant(restaurantID)
     print("Restaurant = %s" % restaurant.name)
-    menuItems = session.query(MenuItem).filter_by(restaurant_id = restaurant.id).all()
+    menuItems = getMenuItems(restaurantID)
     return render_template("menu.html", restaurant=restaurant, menuItems=menuItems)
 
 

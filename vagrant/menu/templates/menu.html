@@ -19,11 +19,13 @@
             {% endif %}
         {% endwith %}
         <a href="{{url_for('newMenuItem', restaurantID = restaurant.id)}}">ADD ITEM</a>
+        <a href="{{url_for('restaurnatMenuJSON', restaurantID = restaurant.id)}}">get JSON</a>
         <ul>
             {% for item in menuItems %}
             <li>ID: {{item.id}} , Item: {{item.name}} , Price: {{item.price}} 
                 <a href="{{url_for('editMenuItem', restaurantID = restaurant.id, menu_id = item.id) }}">EDIT</a>
                 <a href="{{url_for('deleteMenuItem', restaurantID = restaurant.id, menu_id = item.id)}}">DELETE</a>
+                <a href="{{url_for('restaurantMenuItem', restaurantID = restaurant.id, menu_id = item.id)}}">JSON</a>
                 <p>{{item.description}}</p>
             </li>
             {% endfor %}
