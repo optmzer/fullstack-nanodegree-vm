@@ -10,16 +10,25 @@
     <header>
         <div>
             <h2>List of Restaurants</h2>
+            <a href="{{url_for('newRestaurant')}}">ADD RESTAURANT</a>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li><b><i>{{message}}</i></b></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
         </div>
     </header>
     <main>
-        <p>This page will display all Restaurants</p>
         <ul>
             {% for r in restaurants %}
                 <li>
                     <div class="restaurant-name">
                         <h2>{{r.name}}</h2>
-                        <a href="{{url_for('showMenuItems', restaurantID = r.id)}}">MENU</a>
+                        <a href="{{url_for('restaurantMenu', restaurantID = r.id)}}">MENU</a>
                         <a href="{{url_for('editRestaurant', restaurantID = r.id)}}">EDIT</a>
                         <a href="{{url_for('deleteRestaurant', restaurantID = r.id)}}">DELETE</a>
                     </div>

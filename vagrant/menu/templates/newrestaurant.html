@@ -8,11 +8,14 @@
 </head>
 <body>
     <header>
-        <a href="#">HOME</a>
+        <a href="{{url_for('showRestaurants')}}">HOME</a>
         <h2>Create New Restaurant</h2>
     </header>
     <main>
-
+        <form action="" method="POST">
+            Name: <input type="text" name="name" placeholder="Restaurant Name" required="true">
+            <input type="submit" value="SUBMIT">
+        </form>
     </main>
     <footer>
 
